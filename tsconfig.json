@@ -1,3 +1,11 @@
 {"compilerOptions":{"types": ["node"]}}
 
 // removes error message in config.tsfor the Process lines
+/* # 2. Stage all your folder's files
+git add .
+
+# 3. Create your first commit
+git commit -m "First commit"
+
+git push -u origin main
+*/
