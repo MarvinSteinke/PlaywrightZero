@@ -1,0 +1,3 @@
+{"compilerOptions":{"types": ["node"]}}
+
+// removes error message in config.tsfor the Process lines
