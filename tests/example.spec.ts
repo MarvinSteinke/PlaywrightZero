@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
 
+
+//https://www.automationexercise.com/
+
+// Await muss genutzt werden da es sich um ein Promise handelt, type des tests muss ansync sein
+// Locator brauchen kein await
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
