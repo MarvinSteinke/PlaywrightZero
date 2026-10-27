@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 
 //https://www.automationexercise.com/
-
+// https://conduit.bondaracademy.com/ api und auth test site, neue projekt 
 // Await muss genutzt werden da es sich um ein Promise handelt, type des tests muss ansync sein
 // Locator brauchen kein await
 test('has title', async ({ page }) => {
