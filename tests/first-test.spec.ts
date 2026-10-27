@@ -1,17 +1,13 @@
 import { test } from 'playwright/test';
 
-// Einmal vor allen Tests ausführen
-test.beforeAll(async ({ page }) => {
 
-})
+
+// https://playground.bondaracademy.com/pages/iot-dashboard
 
 // Vor jedem Test ausführen
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://playground.bondaracademy.com/pages/iot-dashboard');
+    await page.goto('https://playwright.dev/');
 }) 
-
-
-
 //Test Suite
 test.describe('My First Test Suite', () => {
 
@@ -36,6 +32,8 @@ test.describe('sd', () => {
 
     test('first test', async ({ page }) => {
         await page.goto('https://playground.bondaracademy.com/pages/iot-dashboard');
-        await page.screenshot({ path: `screenshot.png` });
+        const now = new Date();
+        const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}`;
+        await page.screenshot({ path: `Screenshots/dashboard/screenshot-${timestamp}.png` });
     });
 });

@@ -29,5 +29,5 @@ test('opens the writing tests documentation', async ({ page }) => {
   await expect(page).toHaveURL('https://playwright.dev/docs/intro');
 
   await page.getByRole('link', { name: 'Writing tests', exact: true }).click();
-  await expect(page).toHaveURL('https://playwright.dev/docs/writing-tests');
+  await expect(page).toHaveURL('https://playwright.dev/docs/writdding-tests');
 });
