@@ -34,8 +34,14 @@ export default defineConfig({
      baseURL: 'https://playground.bondaracademy.com/', 
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for major browsers 
+  npx playwright test --project="POM Tests - Chrome"*/
   projects: [
+    {
+      name: "POM Tests - chrome",
+      testMatch: '*pomTests.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
