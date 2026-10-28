@@ -14,6 +14,7 @@ export abstract class BasePage implements IPage {
     abstract isLoaded(): Promise<boolean>;
     
         async waitUntilLoaded(): Promise<void> {
+            // Wiederholt den Check ob die Seite geladen ist bis zum Timeout or True
         await expect.poll(() => this.isLoaded()).toBe(true);
     }
 }

@@ -32,6 +32,26 @@ test('Move Temperature Slider to Max (30)', async({pom}) => {
     await pom.getDashboardPage().moveTemperatureSlider();
     await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
+/*
+// Just for testing, only 100 passes the other 2 fail, will be used for Background changes
+const testData = [
+    { expectedTemperature: '100' },
+    { expectedTemperature: '25' },
+    { expectedTemperature: '30' },
+];
+test.describe('Temperature tests',() => {
+    for (const data of testData) {
+        test(`should display Humidity ${data.expectedTemperature} %`,  async({pom}) => {
+
+    await pom.getDashboardPage().gotoDashboard();
+    //await pom.getDashboardPage().testFunction();
+    await pom.getDashboardPage().moveHumiditySlider();
+    await expect(pom.getDashboardPage().humidityContent.locator('.value.humidity.h1')).toContainText(data.expectedTemperature);
+        });
+    }
+});
+*/
+
 test('Move Humidity Slider to Max (100)', async({pom}) => {
     await pom.getDashboardPage().gotoDashboard();
     //await pom.getDashboardPage().testFunction();
