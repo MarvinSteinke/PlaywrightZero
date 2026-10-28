@@ -37,11 +37,11 @@ export default defineConfig({
   /* Configure projects for major browsers 
   npx playwright test --project="POM Tests - Chrome"*/
   projects: [
-    {
+    /*{
       name: "POM Tests - chrome",
       testMatch: '*pomTests.spec.ts',
       use: { ...devices['Desktop Chrome'] },
-    },
+    },*/
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
