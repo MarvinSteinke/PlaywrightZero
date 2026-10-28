@@ -1,7 +1,9 @@
 import {test, expect} from '../fixture';
 
 
-
+test('Fixture Test', async({testFix}) => {
+    console.log("Test Fixture Test");
+})
 
 test('Page Object Model Tests', async({pom}) => {
    // const pm = new PageManager(page);
@@ -32,6 +34,22 @@ test('Move Temperature Slider to Max (30)', async({pom}) => {
     await pom.getDashboardPage().moveTemperatureSlider();
     await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
+
+test('Disable Temp Slider', async({pom}) => {
+    await pom.getDashboardPage().gotoDashboard();
+    //await pom.getDashboardPage().testFunction();
+    await pom.getDashboardPage().disableTempSlider();
+    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--');
+})
+
+test('Disable Humidity Slider', async({pom}) => {
+    await pom.getDashboardPage().gotoDashboard();
+    //await pom.getDashboardPage().testFunction();
+    await pom.getDashboardPage().disableTempSlider();
+    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--');
+})
+
+
 /*
 // Just for testing, only 100 passes the other 2 fail, will be used for Background changes
 const testData = [
