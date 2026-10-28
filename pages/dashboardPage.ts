@@ -25,6 +25,7 @@ console.log(
    // readonly wirelessAudio = this.page.locator('nb-card').filter({ has: this.page.getByText("Wireless Audio", { exact: true }) });
    // readonly coffeMaker = this.page.locator('nb-card').filter({ has: this.page.getByText("Coffee Maker", { exact: true }) });
         readonly temperatureContent = this.page.locator('nb-tab[tabtitle="Temperature"]');
+        readonly humidityContent = this.page.locator('nb-tab[tabtitle="Humidity"]');
         readonly tempOrHumHeader = this.page.locator('ngx-temperature');
         readonly tempHeader = this.tempOrHumHeader.getByText('Temperature');
         readonly humHeader = this.tempOrHumHeader.getByText('Humidity');
@@ -65,8 +66,9 @@ console.log(
         await this.tempHeader.click();
         const tempArea = this.temperatureContent.locator('ngx-temperature-dragger');
         await tempArea.scrollIntoViewIfNeeded();
+        this.moveMouseToBottomRight(tempArea);
         // Bounding Box erstellt X und Y Koordinaten wobei 0 0 oben Links is und X L-> R und y O -> U und größe ist abhängig von dem Element, hier 300x300
-        const tempBox = await tempArea.boundingBox();
+        /*const tempBox = await tempArea.boundingBox();
         // Get Center of the Box, ? heißt das controlliert wird das die tempbox not Null oder undefined ist sonst schmeißt es ein undefined statt Error
         const x = tempBox?.x + tempBox?.width/2;
         const y = tempBox?.y + tempBox?.height/2;
@@ -74,6 +76,38 @@ console.log(
         await this.page.mouse.down();
         await this.page.mouse.move(x+100,y);
         await this.page.mouse.move(x+100,y+100);
+        await this.page.mouse.up();*/
+
+    }
+        async moveHumiditySlider()
+    {
+        await this.humHeader.scrollIntoViewIfNeeded();
+        await this.humHeader.click();
+        const humArea = this.humidityContent.locator('ngx-temperature-dragger');
+        await humArea.scrollIntoViewIfNeeded();
+        this.moveMouseToBottomRight(humArea);
+        // Bounding Box erstellt X und Y Koordinaten wobei 0 0 oben Links is und X L-> R und y O -> U und größe ist abhängig von dem Element, hier 300x300
+        /*const tempBox = await tempArea.boundingBox();
+        // Get Center of the Box, ? heißt das controlliert wird das die tempbox not Null oder undefined ist sonst schmeißt es ein undefined statt Error
+        const x = tempBox?.x + tempBox?.width/2;
+        const y = tempBox?.y + tempBox?.height/2;
+        await this.page.mouse.move(x,y);
+        await this.page.mouse.down();
+        await this.page.mouse.move(x+100,y);
+        await this.page.mouse.move(x+100,y+100);
+        await this.page.mouse.up();*/
+
+    }
+
+    async moveMouseToBottomRight(area:Locator)
+    {
+        const box = await area.boundingBox();
+        const x = box?.x + box?.width/2;
+        const y = box?.y + box?.height/2;
+        await this.page.mouse.move(x,y);
+        await this.page.mouse.down();
+        await this.page.mouse.move(x+100,y);
+        await this.page.mouse.move(x+100,y+150);
         await this.page.mouse.up();
 
     }

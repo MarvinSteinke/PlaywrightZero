@@ -32,3 +32,9 @@ test('Move Temperature Slider to Max (30)', async({pom}) => {
     await pom.getDashboardPage().moveTemperatureSlider();
     await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
+test('Move Humidity Slider to Max (100)', async({pom}) => {
+    await pom.getDashboardPage().gotoDashboard();
+    //await pom.getDashboardPage().testFunction();
+    await pom.getDashboardPage().moveHumiditySlider();
+    await expect(pom.getDashboardPage().humidityContent.locator('.value.humidity.h1')).toContainText('100');
+})
