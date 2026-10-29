@@ -14,7 +14,7 @@ export const test =base.extend<myFixtures>({
         await use(pm)
     },
     testFix: async ({pom}, use) => {
-        await pom.getDashboardPage().gotoDashboard();
+        //await pom.getDashboardPage().gotoDashboard();
         await pom.getDashboardPage().clickToggleButton("Light");
         await use(pom)
     } 

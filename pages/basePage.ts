@@ -14,7 +14,8 @@ export abstract class BasePage implements IPage {
     abstract isLoaded(): Promise<boolean>;
     
         async waitUntilLoaded(): Promise<void> {
+            const className = this.constructor.name;
             // Wiederholt den Check ob die Seite geladen ist bis zum Timeout or True
-        await expect.poll(() => this.isLoaded()).toBe(true);
+        await expect.poll(() => this.isLoaded(),{message: `[${className}] Failed to load!`}).toBe(true);
     }
 }

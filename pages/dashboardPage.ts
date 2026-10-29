@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { BasePage } from "./basePage";
 
  type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
@@ -40,17 +40,11 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
         readonly humHeader = this.tempOrHumHeader.getByText('Humidity');
 
     async isLoaded(): Promise<boolean> {
-        const dashboardHeader = this.page.locator('a[title="IoT Dashboard"]');
+        const dashboardHeader = this.page.getByRole('link', { name: 'IoT Dashboard' });
 
         return await dashboardHeader.isVisible()
         && await dashboardHeader.evaluate(el => el.classList.contains('active'));
         // The el is a element variable based on DashboardHeader for the Evaluate function to find the Attribute i want inside DashboardHeader
-    }
-        async gotoDashboard(): Promise<void> {
-        await this.page.goto('/pages/iot-dashboard');
-        //await this.page.goto('/pages/forms/layouts'); -> check if it can fail
-
-        await this.waitUntilLoaded();
     }
 
 
@@ -87,12 +81,14 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
 
     async moveToTemperaturTabSlider(): Promise<void>
     {
+        await this.waitUntilLoaded();
         await this.tempHeader.scrollIntoViewIfNeeded();
         await this.tempHeader.click();
     }
 
     async moveToHumidityTabSlider(): Promise<void>
     {
+        await this.waitUntilLoaded();
         await this.humHeader.scrollIntoViewIfNeeded();
         await this.humHeader.click();
     }
@@ -162,6 +158,7 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
     }*/
 
     async clickToggleButton(name: buttonName) {
+        await this.waitUntilLoaded();
         const button = this.getToggleButton(name);
         await button.click();  
     }

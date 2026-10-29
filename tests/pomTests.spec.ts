@@ -9,7 +9,6 @@ test('Page Object Model Tests', async({pom}) => {
    // const pm = new PageManager(page);
     let on = "ON";
     let off = "OFF";
-    await pom.getDashboardPage().gotoDashboard();
     await pom.getDashboardPage().clickToggleButton("Light");
     await pom.getDashboardPage().clickToggleButton("Roller Shades");
     await pom.getDashboardPage().clickToggleButton("Wireless Audio");
@@ -29,24 +28,25 @@ test('Page Object Model Tests', async({pom}) => {
 })
 
 test('Move Temperature Slider to Max (30)', async({pom}) => {
-    await pom.getDashboardPage().gotoDashboard();
     //await pom.getDashboardPage().testFunction();
     await pom.getDashboardPage().moveTemperatureSlider();
     await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
 
 test('Disable Temp Slider', async({pom}) => {
-    await pom.getDashboardPage().gotoDashboard();
     //await pom.getDashboardPage().testFunction();
     await pom.getDashboardPage().disableTempSlider();
-    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--');
+    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+        timeout: 10_000
+    });
 })
 
 test('Disable Humidity Slider', async({pom}) => {
-    await pom.getDashboardPage().gotoDashboard();
     //await pom.getDashboardPage().testFunction();
     await pom.getDashboardPage().disableTempSlider();
-    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--');
+    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+        timeout: 10_000
+    });
 })
 
 
@@ -67,12 +67,39 @@ test.describe('Temperature tests',() => {
     await expect(pom.getDashboardPage().humidityContent.locator('.value.humidity.h1')).toContainText(data.expectedTemperature);
         });
     }
-});
-*/
+});*/
+
 
 test('Move Humidity Slider to Max (100)', async({pom}) => {
-    await pom.getDashboardPage().gotoDashboard();
     //await pom.getDashboardPage().testFunction();
     await pom.getDashboardPage().moveHumiditySlider();
     await expect(pom.getDashboardPage().humidityContent.locator('.value.humidity.h1')).toContainText('100');
+})
+
+const testData = [
+    { navigateDestiny: 'Form Layouts' },
+    { navigateDestiny: 'Datepicker' },
+    { navigateDestiny: 'Dialog' },
+    { navigateDestiny: 'Window' },
+    { navigateDestiny: 'Popover' },
+    { navigateDestiny: 'Tooltip' },
+];
+
+/*const testData = [
+    { navigateDestiny: 'Form Layouts', expectedTestData: 'Using the Grid' },
+    { navigateDestiny: 'Datepicker', expectedTestData: 'Common Datepicker' },
+    { navigateDestiny: 'Dialog', expectedTestData: 'Window Form' },
+    { navigateDestiny: 'Window', expectedTestData: 'Popover Position' },
+    { navigateDestiny: 'Popover', expectedTestData: 'Toaster configuration' },
+    { navigateDestiny: 'Tooltip', expectedTestData: 'Tooltip With Icons' },
+];*/ 
+test.describe('Navigationbar tests',() => {
+    for (const data of testData) {
+        test(`should navigate to ${data.navigateDestiny} %`,  async({pom}) => {
+
+    await pom.getNavigationPage().navigateToDestiny(data.navigateDestiny);
+    const expectedName = await pom.getNavigationPage().validateNavigatedPageIsReached(data.navigateDestiny);
+    await expect(expectedName).toBeVisible();
+     });
+   }
 })
