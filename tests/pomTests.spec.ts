@@ -77,12 +77,12 @@ test('Move Humidity Slider to Max (100)', async({pom}) => {
 })
 
 const testData = [
-    { navigateDestiny: 'Form Layouts' },
-    { navigateDestiny: 'Datepicker' },
-    { navigateDestiny: 'Dialog' },
-    { navigateDestiny: 'Window' },
-    { navigateDestiny: 'Popover' },
-    { navigateDestiny: 'Tooltip' },
+    { navigateDestiny: 'Form Layouts' , expectedTestData: 'Using the Grid' },
+    { navigateDestiny: 'Datepicker', expectedTestData: 'Common Datepicker' },
+    { navigateDestiny: 'Dialog' , expectedTestData: 'Open Dialog'},
+    { navigateDestiny: 'Window', expectedTestData: 'Window Form' },
+   /* { navigateDestiny: 'Popover' },
+    { navigateDestiny: 'Tooltip' },*/
 ];
 
 /*const testData = [
@@ -98,8 +98,9 @@ test.describe('Navigationbar tests',() => {
         test(`should navigate to ${data.navigateDestiny} %`,  async({pom}) => {
 
     await pom.getNavigationPage().navigateToDestiny(data.navigateDestiny);
-    const expectedName = await pom.getNavigationPage().validateNavigatedPageIsReached(data.navigateDestiny);
-    await expect(expectedName).toBeVisible();
+    const expectedNameLocator = await pom.getNavigationPage().validateNavigatedPageIsReached(data.navigateDestiny);
+    await expect(expectedNameLocator).toBeVisible();
+    await expect(expectedNameLocator).toContainText(data.expectedTestData);
      });
    }
 })

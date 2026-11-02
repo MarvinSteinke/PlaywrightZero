@@ -1,12 +1,13 @@
 import { Page, Locator} from '@playwright/test';
 import { BasePage } from "./basePage";
+import { PageManager } from './pageManager';
 
 
  type groupHeaderNames = "Forms" | "Modal & Overlays" | "Extra Components" | "Charts"| "Tables & Data" | "Auth";
  
    
 export class NavigationPage extends BasePage {
-        readonly navigationHeader = this.page.locator('nb-sidebar.menu-sidebar');;
+   readonly navigationHeader = this.page.locator('nb-sidebar.menu-sidebar');
     private readonly destinyOptions = {
     Datepicker: "Datepicker",
     FormLayouts: "Form Layouts",
@@ -16,8 +17,13 @@ export class NavigationPage extends BasePage {
     Toastr: "Toastr",
     Tooltip: "Tooltip"
 } as const;
-    
-    constructor(page: Page) {
+
+    private readonly destinyParentOptions = {
+    Forms: "Forms",
+    ModalAndOverlays: "Modal & Overlays",
+} as const;
+// Page Manager wird dependency injected. im PM wird die derzeitige Instant direkt mitgegeben mit this
+    constructor(page: Page,private readonly pageManager: PageManager) {
         super(page);
     }
 
@@ -50,7 +56,7 @@ export class NavigationPage extends BasePage {
 
     private async selectGroupHeader(groupHeaderTitle: string)
     {   
-        this.checkIfNavigationHeaderIsExpanded();
+        await this.checkIfNavigationHeaderIsExpanded();
         const groupHeader = this.page.getByRole('link', { name: groupHeaderTitle });
         await groupHeader.scrollIntoViewIfNeeded();
         const checkIfExpanded = await groupHeader.evaluate(el => el.getAttribute('aria-expanded') === 'true');
@@ -64,7 +70,7 @@ export class NavigationPage extends BasePage {
         const groupHeader = await this.selectDestiny(destiny);
         await this.selectGroupHeader(groupHeader);
         const formsLink = this.page.getByRole('link', {name: destiny})
-        formsLink.scrollIntoViewIfNeeded();
+        await formsLink.scrollIntoViewIfNeeded();
         await formsLink.click();
     }
         async navigateToDatepicker()
@@ -77,20 +83,21 @@ export class NavigationPage extends BasePage {
         let pickedDestiny:string;
         switch(destiny)
         {
-            case this.destinyOptions.Datepicker: pickedDestiny = "Forms"; break;
-            case this.destinyOptions.FormLayouts: pickedDestiny = "Forms"; break;
-            case this.destinyOptions.Dialog: pickedDestiny = "Modal & Overlays"; break;
-            case this.destinyOptions.Window: pickedDestiny = "Modal & Overlays"; break;
-            case this.destinyOptions.Popover: pickedDestiny = "Modal & Overlays"; break;
-            case this.destinyOptions.Toastr: pickedDestiny = "Modal & Overlays"; break;
-            case this.destinyOptions.Tooltip: pickedDestiny = "Modal & Overlays"; break;
+            case this.destinyOptions.Datepicker: pickedDestiny = this.destinyParentOptions.Forms; break;
+            case this.destinyOptions.FormLayouts: pickedDestiny = this.destinyParentOptions.Forms; break;
+            case this.destinyOptions.Dialog: pickedDestiny = this.destinyParentOptions.ModalAndOverlays; break;
+            case this.destinyOptions.Window: pickedDestiny = this.destinyParentOptions.ModalAndOverlays; break;
+            case this.destinyOptions.Popover: pickedDestiny = this.destinyParentOptions.ModalAndOverlays; break;
+            case this.destinyOptions.Toastr: pickedDestiny = this.destinyParentOptions.ModalAndOverlays; break;
+            case this.destinyOptions.Tooltip: pickedDestiny = this.destinyParentOptions.ModalAndOverlays; break;
             default: throw new Error(`Destiny ${destiny} is not defined in the selectDestiny function`);
         }
         return pickedDestiny as groupHeaderNames;
 
     }
 
-    async validateNavigatedPageIsReached(pageName:string)
+    // Das kann möglicherweise aus den jeweiligen Page Klassen dann aufgerufen werden aka statt this.page ein getter aus der Seite.
+   /* async validateNavigatedPageIsReached(pageName:string)
     {
         let expectedPageNameLocator:Locator;
         switch(pageName)
@@ -106,6 +113,25 @@ export class NavigationPage extends BasePage {
         }
         return expectedPageNameLocator!;
     }
+*/
+    async validateNavigatedPageIsReached(pageName: string) {
 
+    const locator = this.pageTitleLocators[pageName];
+
+    if (!locator) {
+        throw new Error(`PageName ${pageName} is not defined`);
+    }
+
+    return locator;
+}
+
+    private get pageTitleLocators(): Record<string, Locator> {
+    return {
+        [this.destinyOptions.FormLayouts]: this.pageManager.formsLayout.formsLayoutHeader,
+        [this.destinyOptions.Datepicker]: this.page.getByText('Common Datepicker', { exact: true }), 
+        [this.destinyOptions.Dialog]: this.page.getByText('Open Dialog', { exact: true }),//this.pageManager.dialog.pageTitle,
+        [this.destinyOptions.Window]: this.page.getByText('Window Form', { exact: true }),//this.pageManager.window.pageTitle,
+    };
+}
 
 }
