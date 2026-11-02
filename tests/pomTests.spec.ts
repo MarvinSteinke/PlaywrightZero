@@ -5,6 +5,20 @@ test('Fixture Test', async({testFix}) => {
     console.log("Test Fixture Test");
 })
 
+test('Using the Grid Forms', async({pom}) => {
+    //await pom.getDashboardPage().testFunction();
+    await pom.getNavigationPage().navigateToFormsLayout();
+    const expectedNameLocator = await pom.getNavigationPage().validateNavigatedPageIsReached("Form Layouts");
+    await expect(expectedNameLocator).toBeVisible();
+    await expect(expectedNameLocator).toContainText("Using the Grid");
+    await pom.formsLayout.usingTheGridFormEnterData("testUser","testPW");
+    const expectedUserLocator =  pom.formsLayout.gridUserData;
+    const expectedRadioLocator =  pom.formsLayout.gridRadioData;
+    // For label check use toHaveValue not toHaveText
+    await expect(expectedUserLocator).toHaveValue("testUser");
+    await expect(expectedRadioLocator).toBeChecked();
+})
+
 test('Page Object Model Tests', async({pom}) => {
    // const pm = new PageManager(page);
     let on = "ON";
@@ -104,3 +118,4 @@ test.describe('Navigationbar tests',() => {
      });
    }
 })
+

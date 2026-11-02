@@ -78,6 +78,16 @@ export class NavigationPage extends BasePage {
         await this.selectGroupHeader("Forms");
         const formsLink = this.page.getByRole('link', {name: "Datepicker"})
     }
+      async navigateToFormsLayout()
+    {
+        await this.selectGroupHeader("Forms");
+        const formsLink = this.page.getByRole('link', {name: this.destinyOptions.FormLayouts})
+        await formsLink.click()
+    }
+
+
+
+
     private async selectDestiny(destiny: string): Promise<groupHeaderNames>
     {   
         let pickedDestiny:string;
