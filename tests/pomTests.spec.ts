@@ -7,8 +7,8 @@ test('Fixture Test', async({testFix}) => {
 
 test('Using the Grid Forms', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.getNavigationPage().navigateToFormsLayout();
-    const expectedNameLocator = await pom.getNavigationPage().validateNavigatedPageIsReached("Form Layouts");
+    await pom.navigationPage.navigateToFormsLayout();
+    const expectedNameLocator = await pom.navigationPage.validateNavigatedPageIsReached("Form Layouts");
     await expect(expectedNameLocator).toBeVisible();
     await expect(expectedNameLocator).toContainText("Using the Grid");
     await pom.formsLayout.usingTheGridFormEnterData("testUser","testPW");
@@ -23,42 +23,42 @@ test('Page Object Model Tests', async({pom}) => {
    // const pm = new PageManager(page);
     let on = "ON";
     let off = "OFF";
-    await pom.getDashboardPage().clickToggleButton("Light");
-    await pom.getDashboardPage().clickToggleButton("Roller Shades");
-    await pom.getDashboardPage().clickToggleButton("Wireless Audio");
-    await pom.getDashboardPage().clickToggleButton("Coffee Maker");
-    await expect(pom.getDashboardPage().getButtonStatus("Light")).toHaveText(off);
-    await expect(pom.getDashboardPage().getButtonStatus("Roller Shades")).toHaveText(off);
-    await expect(pom.getDashboardPage().getButtonStatus("Wireless Audio")).toHaveText(off);
-    await expect(pom.getDashboardPage().getButtonStatus("Coffee Maker")).toHaveText(off);
-    await pom.getDashboardPage().clickToggleButton("Light");
-    await pom.getDashboardPage().clickToggleButton("Roller Shades");
-    await pom.getDashboardPage().clickToggleButton("Wireless Audio");
-    await pom.getDashboardPage().clickToggleButton("Coffee Maker");
-    await expect(pom.getDashboardPage().getButtonStatus("Light")).toHaveText(on);
-    await expect(pom.getDashboardPage().getButtonStatus("Roller Shades")).toHaveText(on);
-    await expect(pom.getDashboardPage().getButtonStatus("Wireless Audio")).toHaveText(on);
-    await expect(pom.getDashboardPage().getButtonStatus("Coffee Maker")).toHaveText(on);
+    await pom.dashboardPage.clickToggleButton("Light");
+    await pom.dashboardPage.clickToggleButton("Roller Shades");
+    await pom.dashboardPage.clickToggleButton("Wireless Audio");
+    await pom.dashboardPage.clickToggleButton("Coffee Maker");
+    await expect(pom.dashboardPage.getButtonStatus("Light")).toHaveText(off);
+    await expect(pom.dashboardPage.getButtonStatus("Roller Shades")).toHaveText(off);
+    await expect(pom.dashboardPage.getButtonStatus("Wireless Audio")).toHaveText(off);
+    await expect(pom.dashboardPage.getButtonStatus("Coffee Maker")).toHaveText(off);
+    await pom.dashboardPage.clickToggleButton("Light");
+    await pom.dashboardPage.clickToggleButton("Roller Shades");
+    await pom.dashboardPage.clickToggleButton("Wireless Audio");
+    await pom.dashboardPage.clickToggleButton("Coffee Maker");
+    await expect(pom.dashboardPage.getButtonStatus("Light")).toHaveText(on);
+    await expect(pom.dashboardPage.getButtonStatus("Roller Shades")).toHaveText(on);
+    await expect(pom.dashboardPage.getButtonStatus("Wireless Audio")).toHaveText(on);
+    await expect(pom.dashboardPage.getButtonStatus("Coffee Maker")).toHaveText(on);
 })
 
 test('Move Temperature Slider to Max (30)', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.getDashboardPage().moveTemperatureSlider();
-    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('30');
+    await pom.dashboardPage.moveTemperatureSlider();
+    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
 
 test('Disable Temp Slider', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.getDashboardPage().disableTempSlider();
-    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+    await pom.dashboardPage.disableTempSlider();
+    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
         timeout: 10_000
     });
 })
 
 test('Disable Humidity Slider', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.getDashboardPage().disableTempSlider();
-    await expect(pom.getDashboardPage().temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+    await pom.dashboardPage.disableTempSlider();
+    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
         timeout: 10_000
     });
 })
@@ -86,8 +86,8 @@ test.describe('Temperature tests',() => {
 
 test('Move Humidity Slider to Max (100)', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.getDashboardPage().moveHumiditySlider();
-    await expect(pom.getDashboardPage().humidityContent.locator('.value.humidity.h1')).toContainText('100');
+    await pom.dashboardPage.moveHumiditySlider();
+    await expect(pom.dashboardPage.humidityContent.locator('.value.humidity.h1')).toContainText('100');
 })
 
 const testData = [
@@ -111,8 +111,8 @@ test.describe('Navigationbar tests',() => {
     for (const data of testData) {
         test(`should navigate to ${data.navigateDestiny} %`,  async({pom}) => {
 
-    await pom.getNavigationPage().navigateToDestiny(data.navigateDestiny);
-    const expectedNameLocator = await pom.getNavigationPage().validateNavigatedPageIsReached(data.navigateDestiny);
+    await pom.navigationPage.navigateToDestiny(data.navigateDestiny);
+    const expectedNameLocator = await pom.navigationPage.validateNavigatedPageIsReached(data.navigateDestiny);
     await expect(expectedNameLocator).toBeVisible();
     await expect(expectedNameLocator).toContainText(data.expectedTestData);
      });

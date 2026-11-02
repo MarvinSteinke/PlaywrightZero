@@ -17,8 +17,8 @@ export class PageManager {
         this.navigationPage = new NavigationPage(this.page,this);
         this.formsLayout = new FormsLayout(this.page);
     }   
-    //Step 3 Add Getter for the Page
-    getDashboardPage(): DashboardPage {
+    //Step 3 Add Getter for the Page not needed cause removed private Tag from variablen
+   /* getDashboardPage(): DashboardPage {
         return this.dashboardPage;
     }
     
@@ -27,5 +27,5 @@ export class PageManager {
     }
     getFormsLayout(): FormsLayout {
         return this.formsLayout;
-    }
+    } */
 }
