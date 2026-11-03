@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator} from '@playwright/test';
 import { BasePage } from "./basePage";
 
  type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
@@ -55,41 +55,54 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
        // const humHeader = tempOrHumHeader.getByText('Humidity');
        // await humHeader.scrollIntoViewIfNeeded();
        // await humHeader.click();
-        await tempHeader.scrollIntoViewIfNeeded();
         await tempHeader.click();
-        const test = this.temperatureContent.locator('circle')
+        //const test = this.temperatureContent.locator('circle')
         const temperaturePower = this.temperatureContent.locator('g[data-name="power"]')
-        await temperaturePower.scrollIntoViewIfNeeded();
         await temperaturePower.click();
     }
 
-    async disableTempSlider(): Promise<void>
+    async disableTempSlider(): Promise<boolean>
     {
-        this.moveToTemperaturTabSlider();
-        const temperaturePower = this.temperatureContent.locator('g[data-name="power"]')
-        await temperaturePower.scrollIntoViewIfNeeded();
-        await temperaturePower.click();
+        await this.moveToTemperaturTabSlider();
+        const temperaturePower = this.temperatureContent.locator('button.power-bg');
+        if(await this.isElementOn(temperaturePower))
+        {
+            await temperaturePower.click();
+            return true;
+        } 
+        return false;
+
     }
 
-        async disableHumiditySlider(): Promise<void>
+        async disableHumiditySlider(): Promise<boolean>
     {
-        this.moveToHumidityTabSlider();
-        const humPower = this.humidityContent.locator('g[data-name="power"]')
-        await humPower.scrollIntoViewIfNeeded();
-        await humPower.click();
+        await this.moveToHumidityTabSlider();
+        const humPower = this.humidityContent.locator('button.power-bg');
+                if(await this.isElementOn(humPower))
+        {
+            await humPower.click();
+            return true;
+        } 
+        return false;
+
+
     }
+
+    async isElementOn(locator:Locator): Promise<boolean> {
+    return await locator.evaluate(
+        el => el.classList.contains('on')
+    );
+}
 
     async moveToTemperaturTabSlider(): Promise<void>
     {
         await this.waitUntilLoaded();
-        await this.tempHeader.scrollIntoViewIfNeeded();
         await this.tempHeader.click();
     }
 
     async moveToHumidityTabSlider(): Promise<void>
     {
         await this.waitUntilLoaded();
-        await this.humHeader.scrollIntoViewIfNeeded();
         await this.humHeader.click();
     }
 
@@ -99,8 +112,7 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
         //await this.tempHeader.click();
         await this.moveToTemperaturTabSlider();
         const tempArea = this.temperatureContent.locator('ngx-temperature-dragger');
-        await tempArea.scrollIntoViewIfNeeded();
-        this.moveMouseToBottomRight(tempArea);
+        await this.moveMouseToBottomRight(tempArea);
         // Bounding Box erstellt X und Y Koordinaten wobei 0 0 oben Links is und X L-> R und y O -> U und größe ist abhängig von dem Element, hier 300x300
 
     }
@@ -109,8 +121,7 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
 
         await this.moveToHumidityTabSlider();
         const humArea = this.humidityContent.locator('ngx-temperature-dragger');
-        await humArea.scrollIntoViewIfNeeded();
-        this.moveMouseToBottomRight(humArea);
+        await this.moveMouseToBottomRight(humArea);
         // Bounding Box erstellt X und Y Koordinaten wobei 0 0 oben Links is und X L-> R und y O -> U und größe ist abhängig von dem Element, hier 300x300
         /*const tempBox = await tempArea.boundingBox();
         // Get Center of the Box, ? heißt das controlliert wird das die tempbox not Null oder undefined ist sonst schmeißt es ein undefined statt Error

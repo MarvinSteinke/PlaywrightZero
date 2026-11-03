@@ -1,14 +1,14 @@
 import {test, expect} from '../fixture';
 
-
+/*
 test('Fixture Test', async({testFix}) => {
     console.log("Test Fixture Test");
-})
+})*/
 
 test('Using the Grid Forms', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
     await pom.navigationPage.navigateToFormsLayout();
-    const expectedNameLocator = await pom.navigationPage.validateNavigatedPageIsReached("Form Layouts");
+    const expectedNameLocator = await pom.navigationPage.getPageTitleLocator("Form Layouts");
     await expect(expectedNameLocator).toBeVisible();
     await expect(expectedNameLocator).toContainText("Using the Grid");
     await pom.formsLayout.usingTheGridFormEnterData("testUser","testPW");
@@ -21,8 +21,8 @@ test('Using the Grid Forms', async({pom}) => {
 
 test('Page Object Model Tests', async({pom}) => {
    // const pm = new PageManager(page);
-    let on = "ON";
-    let off = "OFF";
+    const on = "ON";
+    const off = "OFF";
     await pom.dashboardPage.clickToggleButton("Light");
     await pom.dashboardPage.clickToggleButton("Roller Shades");
     await pom.dashboardPage.clickToggleButton("Wireless Audio");
@@ -49,7 +49,31 @@ test('Move Temperature Slider to Max (30)', async({pom}) => {
 
 test('Disable Temp Slider', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.dashboardPage.disableTempSlider();
+    /*const wasDisabled = await pom.dashboardPage.disableTempSlider();
+        if (!wasDisabled) {
+        test.info().annotations.push({
+            type: 'Info',
+            description: 'Temperature Power was not clicked because it was already OFF.'
+        });
+    }
+*/
+const wasDisabled = await pom.dashboardPage.disableTempSlider();
+ if (wasDisabled) {
+
+        await test.step('Temperature Power successfully switched OFF', async () => {});
+
+    } else {
+
+        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => {});
+
+        await test.info().attach('Warning - Temperature Power', {
+            body: 'The temperature power button was already OFF. No click was performed.',
+            contentType: 'text/plain'
+        });
+    }
+
+
+
     await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
         timeout: 10_000
     });
@@ -57,8 +81,23 @@ test('Disable Temp Slider', async({pom}) => {
 
 test('Disable Humidity Slider', async({pom}) => {
     //await pom.getDashboardPage().testFunction();
-    await pom.dashboardPage.disableTempSlider();
-    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+
+const wasDisabled = await pom.dashboardPage.disableHumiditySlider();
+ if (wasDisabled) {
+
+        await test.step('Temperature Power successfully switched OFF', async () => {});
+
+    } else {
+
+        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => {});
+
+        await test.info().attach('Warning - Temperature Power', {
+            body: 'The temperature power button was already OFF. No click was performed.',
+            contentType: 'text/plain'
+        });
+    }
+
+    await expect(pom.dashboardPage.humidityContent.locator('.value.humidity.h1')).toContainText('--',{
         timeout: 10_000
     });
 })
@@ -112,7 +151,7 @@ test.describe('Navigationbar tests',() => {
         test(`should navigate to ${data.navigateDestiny} %`,  async({pom}) => {
 
     await pom.navigationPage.navigateToDestiny(data.navigateDestiny);
-    const expectedNameLocator = await pom.navigationPage.validateNavigatedPageIsReached(data.navigateDestiny);
+    const expectedNameLocator = await pom.navigationPage.getPageTitleLocator(data.navigateDestiny);
     await expect(expectedNameLocator).toBeVisible();
     await expect(expectedNameLocator).toContainText(data.expectedTestData);
      });

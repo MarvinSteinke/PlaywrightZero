@@ -13,7 +13,7 @@ export class FormsLayout extends BasePage {
 
     // Info, validation not really possible because the buttons on this site (like sign in) dont do anything. This site is mainly to test locators and input fields
     async usingTheGridFormEnterData(userName: string, password: string) {
-        this.waitUntilLoaded();
+        await this.waitUntilLoaded();
         const parentOfGridForm = this.formsLayoutHeader.locator('..')
         await parentOfGridForm.getByLabel("Email").fill(userName);
         await parentOfGridForm.getByLabel("Password").fill(password);
