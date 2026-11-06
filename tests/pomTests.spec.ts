@@ -6,6 +6,10 @@ test('Fixture Test', async({testFix}) => {
 })*/
 
 test('Using the Grid Forms', async({pom}) => {
+   await test.step(`Test if written in line`, async () => {
+     await pom.navigationPage.navigateToFormsLayout();
+    });
+
     //await pom.getDashboardPage().testFunction();
     await pom.navigationPage.navigateToFormsLayout();
     const expectedNameLocator = await pom.navigationPage.getPageTitleLocator("Form Layouts");

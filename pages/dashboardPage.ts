@@ -1,114 +1,122 @@
-import { Page, Locator} from '@playwright/test';
+import { Page, Locator, test } from '@playwright/test';
 import { BasePage } from "./basePage";
 
- type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
-   
+type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
+
 
 export class DashboardPage extends BasePage {
-/**console.log('Cards found:', await this.lightButton.count());
-
-console.log(
-  'Divs found:',
-  await this.lightButton.locator('div').count()
-);
-
-console.log(
-  'Card HTML:',
-  await this.lightButton.innerHTML()
-);/ 
-Ich würde mich an diese drei Regeln halten:
-
-Aktionen, die auf Playwright warten: async ...: Promise<void>
-
-Asynchrone Methoden, die Daten zurückgeben: async ...: Promise<T> (T is type)
-
-Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locator
-
-*/
+    /**console.log('Cards found:', await this.lightButton.count());
     
+    console.log(
+      'Divs found:',
+      await this.lightButton.locator('div').count()
+    );
+    
+    console.log(
+      'Card HTML:',
+      await this.lightButton.innerHTML()
+    );/ 
+    Ich würde mich an diese drei Regeln halten:
+    
+    Aktionen, die auf Playwright warten: async ...: Promise<void>
+    
+    Asynchrone Methoden, die Daten zurückgeben: async ...: Promise<T> (T is type)
+    
+    Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locator
+    
+    */
+
     constructor(page: Page) {
         super(page);
     }
     //readonly lightButton = this.page.locator('nb-card').filter( { has: this.page.getByText("Light", { exact: true }) });
-   // readonly rollerShades = this.page.locator('nb-card').filter({ has: this.page.getByText("Roller Shades", { exact: true }) });
-   // readonly wirelessAudio = this.page.locator('nb-card').filter({ has: this.page.getByText("Wireless Audio", { exact: true }) });
-   // readonly coffeMaker = this.page.locator('nb-card').filter({ has: this.page.getByText("Coffee Maker", { exact: true }) });
-        readonly temperatureContent = this.page.locator('nb-tab[tabtitle="Temperature"]');
-        readonly humidityContent = this.page.locator('nb-tab[tabtitle="Humidity"]');
-        readonly tempOrHumHeader = this.page.locator('ngx-temperature');
-        readonly tempHeader = this.tempOrHumHeader.getByText('Temperature');
-        readonly humHeader = this.tempOrHumHeader.getByText('Humidity');
+    // readonly rollerShades = this.page.locator('nb-card').filter({ has: this.page.getByText("Roller Shades", { exact: true }) });
+    // readonly wirelessAudio = this.page.locator('nb-card').filter({ has: this.page.getByText("Wireless Audio", { exact: true }) });
+    // readonly coffeMaker = this.page.locator('nb-card').filter({ has: this.page.getByText("Coffee Maker", { exact: true }) });
+    readonly temperatureContent = this.page.locator('nb-tab[tabtitle="Temperature"]');
+    readonly humidityContent = this.page.locator('nb-tab[tabtitle="Humidity"]');
+    readonly tempOrHumHeader = this.page.locator('ngx-temperature');
+    readonly tempHeader = this.tempOrHumHeader.getByText('Temperature');
+    readonly humHeader = this.tempOrHumHeader.getByText('Humidity');
 
     async isLoaded(): Promise<boolean> {
         const dashboardHeader = this.page.getByRole('link', { name: 'IoT Dashboard' });
 
         return await dashboardHeader.isVisible()
-        && await dashboardHeader.evaluate(el => el.classList.contains('active'));
+            && await dashboardHeader.evaluate(el => el.classList.contains('active'));
         // The el is a element variable based on DashboardHeader for the Evaluate function to find the Attribute i want inside DashboardHeader
     }
 
 
-//Test to check Circle Slider locator
+    //Test to check Circle Slider locator
 
-    async testFunction(){
+    async testFunction() {
         const tempHeader = this.tempOrHumHeader.getByText('Temperature');
-       // const humHeader = tempOrHumHeader.getByText('Humidity');
-       // await humHeader.scrollIntoViewIfNeeded();
-       // await humHeader.click();
+        // const humHeader = tempOrHumHeader.getByText('Humidity');
+        // await humHeader.scrollIntoViewIfNeeded();
+        // await humHeader.click();
         await tempHeader.click();
         //const test = this.temperatureContent.locator('circle')
         const temperaturePower = this.temperatureContent.locator('g[data-name="power"]')
         await temperaturePower.click();
     }
 
-    async disableTempSlider(): Promise<boolean>
-    {
+    async disableTempSlider(): Promise<boolean> {
+
         await this.moveToTemperaturTabSlider();
         const temperaturePower = this.temperatureContent.locator('button.power-bg');
-        if(await this.isElementOn(temperaturePower))
-        {
+        if (await this.isElementOn(temperaturePower)) {
             await temperaturePower.click();
             return true;
-        } 
+        }
         return false;
 
     }
 
-        async disableHumiditySlider(): Promise<boolean>
-    {
+    async disableHumiditySlider(): Promise<boolean> {
         await this.moveToHumidityTabSlider();
         const humPower = this.humidityContent.locator('button.power-bg');
-                if(await this.isElementOn(humPower))
-        {
+        if (await this.isElementOn(humPower)) {
             await humPower.click();
             return true;
-        } 
+        }
         return false;
 
 
     }
 
-    async isElementOn(locator:Locator): Promise<boolean> {
-    return await locator.evaluate(
-        el => el.classList.contains('on')
-    );
-}
-
-    async moveToTemperaturTabSlider(): Promise<void>
-    {
-        await this.waitUntilLoaded();
-        await this.tempHeader.click();
+    async isElementOn(locator: Locator): Promise<boolean> {
+        return await locator.evaluate(
+            el => el.classList.contains('on')
+        );
     }
 
-    async moveToHumidityTabSlider(): Promise<void>
-    {
-        await this.waitUntilLoaded();
-        await this.humHeader.click();
+    async moveToTemperaturTabSlider(): Promise<void> {
+        await test.step(`Moving Temperatur Slider`, async () => {
+            await this.waitUntilLoaded();
+            await this.tempHeader.click();
+
+        });
+
     }
 
-    async moveTemperatureSlider(): Promise<void>
-    {
-       //await this.tempHeader.scrollIntoViewIfNeeded();
+    async moveToHumidityTabSlider(): Promise<void> {
+
+        await test.step(`Moving Humidity Slider`, async () => {
+            await this.waitUntilLoaded();
+            await this.humHeader.click();
+
+        });
+
+    }
+    /*
+                await test.step(`Moving Temperaturslider`, async () => {
+
+        }); */
+
+    async moveTemperatureSlider(): Promise<void> {
+
+        //await this.tempHeader.scrollIntoViewIfNeeded();
         //await this.tempHeader.click();
         await this.moveToTemperaturTabSlider();
         const tempArea = this.temperatureContent.locator('ngx-temperature-dragger');
@@ -116,8 +124,7 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
         // Bounding Box erstellt X und Y Koordinaten wobei 0 0 oben Links is und X L-> R und y O -> U und größe ist abhängig von dem Element, hier 300x300
 
     }
-        async moveHumiditySlider(): Promise<void>
-    {
+    async moveHumiditySlider(): Promise<void> {
 
         await this.moveToHumidityTabSlider();
         const humArea = this.humidityContent.locator('ngx-temperature-dragger');
@@ -135,43 +142,49 @@ Synchrone Methoden, die beispielsweise Locator-Objekte zurückgeben: ...: Locato
 
     }
 
-    async moveMouseToBottomRight(area:Locator): Promise<void>
-    {
-        const box = await area.boundingBox();
-        const x = box?.x + box?.width/2;
-        const y = box?.y + box?.height/2;
-        await this.page.mouse.move(x,y);
-        await this.page.mouse.down();
-        await this.page.mouse.move(x+100,y);
-        await this.page.mouse.move(x+100,y+150);
-        await this.page.mouse.up();
+    async moveMouseToBottomRight(area: Locator): Promise<void> {
+
+        await test.step(`Moving Mouse to bottom left`, async () => {
+            const box = await area.boundingBox();
+            const x = box?.x + box?.width / 2;
+            const y = box?.y + box?.height / 2;
+            await this.page.mouse.move(x, y);
+            await this.page.mouse.down();
+            await this.page.mouse.move(x + 100, y);
+            await this.page.mouse.move(x + 100, y + 150);
+            await this.page.mouse.up();
+        });
+
 
     }
 
 
     // Gets the Parent Card of the nearly Identical Elements so the right one is chosen
-   private getButtonNameLocator(name: buttonName): Locator {
-        return this.page.locator('nb-card').filter( { has: this.page.getByText(name, { exact: true }) });
-   }
-   // Status to check On Off for the Toggle Buttons
-    getButtonStatus(name: buttonName){
-      return this.getButtonNameLocator(name).locator('.status');
-   }
+    private getButtonNameLocator(name: buttonName): Locator {
+        return this.page.locator('nb-card').filter({ has: this.page.getByText(name, { exact: true }) });
+    }
+    // Status to check On Off for the Toggle Buttons
+    getButtonStatus(name: buttonName) {
+        return this.getButtonNameLocator(name).locator('.status');
+    }
 
-/*
-    async clickLightButton() {
-        await this.getButtonNameLocator("Light").click();
-        let expectedText = await this.lightButton.locator('.status');
-        await expect(expectedText).toHaveText('OFF');
-        await this.lightButton.click();
-        expectedText = await this.lightButton.locator('.status');
-        await expect(expectedText).toHaveText('ON');
-    }*/
+    /*
+        async clickLightButton() {
+            await this.getButtonNameLocator("Light").click();
+            let expectedText = await this.lightButton.locator('.status');
+            await expect(expectedText).toHaveText('OFF');
+            await this.lightButton.click();
+            expectedText = await this.lightButton.locator('.status');
+            await expect(expectedText).toHaveText('ON');
+        }*/
 
     async clickToggleButton(name: buttonName) {
-        await this.waitUntilLoaded();
-        const button = this.getToggleButton(name);
-        await button.click();  
+        await test.step(`Clicking Toggle Button`, async () => {
+            await this.waitUntilLoaded();
+            const button = this.getToggleButton(name);
+            await button.click();
+        });
+
     }
 
     private getToggleButton(name: buttonName): Locator {
