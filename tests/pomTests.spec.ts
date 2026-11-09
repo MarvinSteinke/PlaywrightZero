@@ -1,13 +1,32 @@
-import {test, expect} from '../fixture';
+import { test, expect } from '../fixture';
+import type { buttonName } from '../pages/dashboardPage';
 
 /*
 test('Fixture Test', async({testFix}) => {
     console.log("Test Fixture Test");
 })*/
+const testDataNavigate = [
+    { navigateDestiny: 'Form Layouts', expectedTestData: 'Using the Grid' },
+    { navigateDestiny: 'Datepicker', expectedTestData: 'Common Datepicker' },
+    { navigateDestiny: 'Dialog', expectedTestData: 'Open Dialog' },
+    { navigateDestiny: 'Window', expectedTestData: 'Window Form' },
+    /* { navigateDestiny: 'Popover' },
+     { navigateDestiny: 'Tooltip' },*/
+];
+const testDataControllButton = [
+    { controllButtonName: 'Light' },
+    { controllButtonName: 'Roller Shades' },
+    { controllButtonName: 'Wireless Audio' },
+    { controllButtonName: 'Coffee Maker' },
+    /* { navigateDestiny: 'Popover' },
+     { navigateDestiny: 'Tooltip' },*/
+] satisfies { controllButtonName: buttonName }[];
 
-test('Using the Grid Forms', async({pom}) => {
-   await test.step(`Test if written in line`, async () => {
-     await pom.navigationPage.navigateToFormsLayout();
+
+
+test('Using the Grid Forms', async ({ pom }) => {
+    await test.step(`Test if written in line`, async () => {
+        await pom.navigationPage.navigateToFormsLayout();
     });
 
     //await pom.getDashboardPage().testFunction();
@@ -15,16 +34,16 @@ test('Using the Grid Forms', async({pom}) => {
     const expectedNameLocator = await pom.navigationPage.getPageTitleLocator("Form Layouts");
     await expect(expectedNameLocator).toBeVisible();
     await expect(expectedNameLocator).toContainText("Using the Grid");
-    await pom.formsLayout.usingTheGridFormEnterData("testUser","testPW");
-    const expectedUserLocator =  pom.formsLayout.gridUserData;
-    const expectedRadioLocator =  pom.formsLayout.gridRadioData;
+    await pom.formsLayout.usingTheGridFormEnterData("testUser", "testPW");
+    const expectedUserLocator = pom.formsLayout.gridUserData;
+    const expectedRadioLocator = pom.formsLayout.gridRadioData;
     // For label check use toHaveValue not toHaveText
     await expect(expectedUserLocator).toHaveValue("testUser");
     await expect(expectedRadioLocator).toBeChecked();
 })
-
-test('Page Object Model Tests', async({pom}) => {
-   // const pm = new PageManager(page);
+/*
+test('Page Object Model Tests', async ({ pom }) => {
+    // const pm = new PageManager(page);
     const on = "ON";
     const off = "OFF";
     await pom.dashboardPage.clickToggleButton("Light");
@@ -44,14 +63,43 @@ test('Page Object Model Tests', async({pom}) => {
     await expect(pom.dashboardPage.getButtonStatus("Wireless Audio")).toHaveText(on);
     await expect(pom.dashboardPage.getButtonStatus("Coffee Maker")).toHaveText(on);
 })
+*/
 
-test('Move Temperature Slider to Max (30)', async({pom}) => {
+
+test.describe('Dashboard controll Button tests', () => {
+    for (const data of testDataControllButton) {
+        test(`Dashboard Toggle controll Button Off for ${data.controllButtonName} %`, async ({ pom }) => {
+            // const pm = new PageManager(page);
+            const off = "OFF";
+            //await pom.dashboardPage.clickToggleButton(data.controllButtonName);
+
+            const wasDisabled = await pom.dashboardPage.clickControllButtonOff(data.controllButtonName);
+            if (wasDisabled) {
+
+                await test.step(`Controll Button ${data.controllButtonName}% successfully switched OFF`, async () => { });
+
+            } else {
+
+                await test.step(`⚠️ WARNING: Controll Button ${data.controllButtonName}% was already OFF`, async () => { });
+
+                await test.info().attach(`Warning - Controll Button ${data.controllButtonName}% `, {
+                    body: 'The controll button power button was already OFF. No click was performed.',
+                    contentType: 'text/plain'
+                });
+            }
+            await expect(pom.dashboardPage.getButtonStatus(data.controllButtonName)).toHaveText(off);
+        });
+    }
+})
+
+
+test('Move Temperature Slider to Max (30)', async ({ pom }) => {
     //await pom.getDashboardPage().testFunction();
     await pom.dashboardPage.moveTemperatureSlider();
     await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('30');
 })
 
-test('Disable Temp Slider', async({pom}) => {
+test('Disable Temp Slider', async ({ pom }) => {
     //await pom.getDashboardPage().testFunction();
     /*const wasDisabled = await pom.dashboardPage.disableTempSlider();
         if (!wasDisabled) {
@@ -61,14 +109,14 @@ test('Disable Temp Slider', async({pom}) => {
         });
     }
 */
-const wasDisabled = await pom.dashboardPage.disableTempSlider();
- if (wasDisabled) {
+    const wasDisabled = await pom.dashboardPage.disableTempSlider();
+    if (wasDisabled) {
 
-        await test.step('Temperature Power successfully switched OFF', async () => {});
+        await test.step('Temperature Power successfully switched OFF', async () => { });
 
     } else {
 
-        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => {});
+        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => { });
 
         await test.info().attach('Warning - Temperature Power', {
             body: 'The temperature power button was already OFF. No click was performed.',
@@ -78,22 +126,22 @@ const wasDisabled = await pom.dashboardPage.disableTempSlider();
 
 
 
-    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--',{
+    await expect(pom.dashboardPage.temperatureContent.locator('.value.temperature.h1')).toContainText('--', {
         timeout: 10_000
     });
 })
 
-test('Disable Humidity Slider', async({pom}) => {
+test('Disable Humidity Slider', async ({ pom }) => {
     //await pom.getDashboardPage().testFunction();
 
-const wasDisabled = await pom.dashboardPage.disableHumiditySlider();
- if (wasDisabled) {
+    const wasDisabled = await pom.dashboardPage.disableHumiditySlider();
+    if (wasDisabled) {
 
-        await test.step('Temperature Power successfully switched OFF', async () => {});
+        await test.step('Temperature Power successfully switched OFF', async () => { });
 
     } else {
 
-        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => {});
+        await test.step('⚠️ WARNING: Temperature Power was already OFF', async () => { });
 
         await test.info().attach('Warning - Temperature Power', {
             body: 'The temperature power button was already OFF. No click was performed.',
@@ -101,7 +149,7 @@ const wasDisabled = await pom.dashboardPage.disableHumiditySlider();
         });
     }
 
-    await expect(pom.dashboardPage.humidityContent.locator('.value.humidity.h1')).toContainText('--',{
+    await expect(pom.dashboardPage.humidityContent.locator('.value.humidity.h1')).toContainText('--', {
         timeout: 10_000
     });
 })
@@ -127,20 +175,13 @@ test.describe('Temperature tests',() => {
 });*/
 
 
-test('Move Humidity Slider to Max (100)', async({pom}) => {
+test('Move Humidity Slider to Max (100)', async ({ pom }) => {
     //await pom.getDashboardPage().testFunction();
     await pom.dashboardPage.moveHumiditySlider();
     await expect(pom.dashboardPage.humidityContent.locator('.value.humidity.h1')).toContainText('100');
 })
 
-const testData = [
-    { navigateDestiny: 'Form Layouts' , expectedTestData: 'Using the Grid' },
-    { navigateDestiny: 'Datepicker', expectedTestData: 'Common Datepicker' },
-    { navigateDestiny: 'Dialog' , expectedTestData: 'Open Dialog'},
-    { navigateDestiny: 'Window', expectedTestData: 'Window Form' },
-   /* { navigateDestiny: 'Popover' },
-    { navigateDestiny: 'Tooltip' },*/
-];
+
 
 /*const testData = [
     { navigateDestiny: 'Form Layouts', expectedTestData: 'Using the Grid' },
@@ -149,16 +190,16 @@ const testData = [
     { navigateDestiny: 'Window', expectedTestData: 'Popover Position' },
     { navigateDestiny: 'Popover', expectedTestData: 'Toaster configuration' },
     { navigateDestiny: 'Tooltip', expectedTestData: 'Tooltip With Icons' },
-];*/ 
-test.describe('Navigationbar tests',() => {
-    for (const data of testData) {
-        test(`should navigate to ${data.navigateDestiny} %`,  async({pom}) => {
+];*/
+test.describe('Navigationbar tests', () => {
+    for (const data of testDataNavigate) {
+        test(`should navigate to ${data.navigateDestiny} %`, async ({ pom }) => {
 
-    await pom.navigationPage.navigateToDestiny(data.navigateDestiny);
-    const expectedNameLocator = await pom.navigationPage.getPageTitleLocator(data.navigateDestiny);
-    await expect(expectedNameLocator).toBeVisible();
-    await expect(expectedNameLocator).toContainText(data.expectedTestData);
-     });
-   }
+            await pom.navigationPage.navigateToDestiny(data.navigateDestiny);
+            const expectedNameLocator = await pom.navigationPage.getPageTitleLocator(data.navigateDestiny);
+            await expect(expectedNameLocator).toBeVisible();
+            await expect(expectedNameLocator).toContainText(data.expectedTestData);
+        });
+    }
 })
 

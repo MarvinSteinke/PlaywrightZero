@@ -1,7 +1,7 @@
 import { Page, Locator, test } from '@playwright/test';
 import { BasePage } from "./basePage";
 
-type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
+export type buttonName = "Light" | "Roller Shades" | "Wireless Audio" | "Coffee Maker";
 
 
 export class DashboardPage extends BasePage {
@@ -84,13 +84,17 @@ export class DashboardPage extends BasePage {
 
 
     }
-
+    /*
+        async isElementOn(locator: Locator): Promise<boolean> {
+            return await locator.evaluate(
+                el => el.classList.contains('on')
+            );
+        }*/
     async isElementOn(locator: Locator): Promise<boolean> {
         return await locator.evaluate(
-            el => el.classList.contains('on')
+            el => [...el.classList].some(cls => cls.toLowerCase() === 'on')
         );
     }
-
     async moveToTemperaturTabSlider(): Promise<void> {
         await test.step(`Moving Temperatur Slider`, async () => {
             await this.waitUntilLoaded();
@@ -177,6 +181,22 @@ export class DashboardPage extends BasePage {
             expectedText = await this.lightButton.locator('.status');
             await expect(expectedText).toHaveText('ON');
         }*/
+
+    async clickControllButtonOff(name: buttonName): Promise<boolean> {
+        return await test.step(`Clicking Toggle Button to Off`, async () => {
+            await this.waitUntilLoaded();
+            const status = this.getButtonStatus(name);
+
+            if (await status.textContent() === "ON") {
+                await this.clickToggleButton(name);
+                return true;
+            }
+            return false;
+        });
+
+    }
+
+
 
     async clickToggleButton(name: buttonName) {
         await test.step(`Clicking Toggle Button`, async () => {
