@@ -6,6 +6,10 @@ import { BasePage } from "../basePage";
 
 export class FormsLayout extends BasePage {
     readonly formsLayoutHeader = this.page.getByText('Using the Grid', { exact: true });
+    readonly formsLayoutBasicFormHeader = this.page.getByText('Basic form', { exact: true })
+    readonly formsLayoutFormWithoutLabelsHeader = this.page.getByText('Form without labels', { exact: true })
+    readonly formsLayoutBlockFormHeader = this.page.getByText('Block form', { exact: true })
+    readonly parentOfFormsWithoutLabelForm = this.formsLayoutFormWithoutLabelsHeader.locator('..')
     constructor(page: Page) {
         super(page);
     }
@@ -22,6 +26,33 @@ export class FormsLayout extends BasePage {
         // Alternative wird der label angeklickt dadurch werden Playwrights actionability check nicht skipped wie beim force true
         //await parentOfGridForm.locator('nb-radio').filter({ hasText: 'Option 1' }).locator('label').click();
     }
+
+    async usingFormsWithoutLabels(recipient: string, subject: string, message: string) {
+        await this.waitUntilLoaded();
+        await this.parentOfFormsWithoutLabelForm.getByPlaceholder("Recipients").fill(recipient);
+        await this.parentOfFormsWithoutLabelForm.getByPlaceholder("Subject").fill(subject);
+        await this.parentOfFormsWithoutLabelForm.getByPlaceholder("Message").fill(message);
+        await this.parentOfFormsWithoutLabelForm.getByRole('button', {name:'Send'}).click()
+    }
+
+    get formsWithoutLabelRecipient(): Locator {
+        return this.parentOfFormsWithoutLabelForm.getByPlaceholder("Recipients");
+    }
+    get formsWithoutLabelSubject(): Locator {
+        return this.parentOfFormsWithoutLabelForm.getByPlaceholder("Subject");
+    }
+    get formsWithoutLabelMessage(): Locator {
+        return this.parentOfFormsWithoutLabelForm.getByPlaceholder("Message");
+    }
+    get formsWithoutLabelSendBtn(): Locator {
+        return this.parentOfFormsWithoutLabelForm.getByRole('button', {name:'Send'});
+    }
+        get formsWithoutLabelAssert(): Locator {
+        return this.parentOfFormsWithoutLabelForm.locator('form');
+    }
+
+
+
 
     get gridUserData(): Locator {
         const parentOfGridForm = this.formsLayoutHeader.locator('..');
