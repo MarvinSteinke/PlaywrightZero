@@ -50,6 +50,20 @@ test('Forms Layout Without Label Test', async ({pom}) => {
 })
 
 
+test('Block Form Test', async ({pom}) => {
+    await pom.navigationPage.navigateToFormsLayout();
+    await pom.formsLayout.usingBlockFormEnterData("test1","test2","test3","test4");
+
+    await expect(pom.formsLayout.blockFormFirstNameLabel).toHaveValue("test1");
+     await expect(pom.formsLayout.blockFormLastNameLabel).toHaveValue("test2");
+      await expect(pom.formsLayout.blockFormEmailLabel).toHaveValue("test3");
+       await expect(pom.formsLayout.blockFormWebsiteLabel).toHaveValue("test4");
+    // No real feedback on Button click but this class changes so we expect this.
+    //await expect(pom.formsLayout.formsWithoutLabelAssert).toHaveClass(/ng-submitted/);
+})
+
+
+
 
 test.describe('Dashboard controll Button tests', () => {
     for (const data of testDataControllButton) {
