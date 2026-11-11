@@ -22,7 +22,11 @@ const testDataControllButton = [
      { navigateDestiny: 'Tooltip' },*/
 ] satisfies { controllButtonName: buttonName }[];
 
-
+test('Modal and Overlays Toastr - Toaster type dropdown test', async ({ pom }) => {
+    await pom.navigationPage.navigateToToastr();
+    await pom.toastr.selectingOptionFromToasterTypeDropdown("info");
+    await expect(pom.toastr.toastTypeDropdown).toHaveValue("info");
+});
 
 test('Using the Grid Forms', async ({ pom }) => {
     await test.step(`Test if written in line`, async () => {

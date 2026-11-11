@@ -2,6 +2,7 @@ import { Page, expect } from '@playwright/test';
 import { DashboardPage } from "./dashboardPage";
 import { NavigationPage } from "./navigationPage";
 import { FormsLayout } from "./Forms/formsLayout";
+import { Toastr } from "./ModalAndOverlays/toastr";
 export class PageManager {
 
     // Step 1 Add Variable Name
@@ -9,6 +10,7 @@ export class PageManager {
     readonly dashboardPage: DashboardPage;
     readonly navigationPage: NavigationPage;
     readonly formsLayout: FormsLayout;
+    readonly toastr: Toastr;
 
     // Step 2 add ne Page to Constructor
     constructor(page: Page) {
@@ -16,6 +18,7 @@ export class PageManager {
         this.dashboardPage = new DashboardPage(this.page);
         this.navigationPage = new NavigationPage(this.page,this);
         this.formsLayout = new FormsLayout(this.page);
+        this.toastr = new Toastr(this.page);
     }   
     //Step 3 Add Getter for the Page not needed cause removed private Tag from variablen
    /* getDashboardPage(): DashboardPage {

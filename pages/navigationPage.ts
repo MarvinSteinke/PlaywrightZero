@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, test } from '@playwright/test';
 import { BasePage } from "./basePage";
 import { PageManager } from './pageManager';
 
@@ -72,15 +72,28 @@ export class NavigationPage extends BasePage {
         await formsLink.click();
     }
     async navigateToDatepicker() {
-        await this.selectGroupHeader("Forms");
        // const formsLink = this.page.getByRole('link', { name: "Datepicker" })
+                await test.step(`Navigate to Forms - Datepicker`, async () => {
+        await this.selectGroupHeader("Forms");
+        const formsLink = this.page.getByRole('link', { name: this.destinyOptions.Datepicker })
+        await formsLink.click()
+                });
     }
     async navigateToFormsLayout() {
+         await test.step(`Navigate to Forms - Form Layout`, async () => {
         await this.selectGroupHeader("Forms");
         const formsLink = this.page.getByRole('link', { name: this.destinyOptions.FormLayouts })
         await formsLink.click()
+                });
     }
 
+       async navigateToToastr() {
+         await test.step(`Navigate to Modal & Overlays - Toastr`, async () => {
+        await this.selectGroupHeader("Modal & Overlays");
+        const formsLink = this.page.getByRole('link', { name: this.destinyOptions.Toastr })
+        await formsLink.click()
+                });
+    }
 
 
 
