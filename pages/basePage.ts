@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { Page, expect , test} from '@playwright/test';
 
 
 export interface IPage{
@@ -16,6 +16,8 @@ export abstract class BasePage implements IPage {
         async waitUntilLoaded(): Promise<void> {
             const className = this.constructor.name;
             // Wiederholt den Check ob die Seite geladen ist bis zum Timeout or True
+            await test.step(`Check if site ${className} is loaded`, async () => {
         await expect.poll(() => this.isLoaded(),{message: `[${className}] Failed to load!`}).toBe(true);
+            });
     }
 }

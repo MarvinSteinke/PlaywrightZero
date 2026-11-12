@@ -28,6 +28,23 @@ test('Modal and Overlays Toastr - Toaster type dropdown test', async ({ pom }) =
     await expect(pom.toastr.toastTypeDropdown).toHaveValue("info");
 });
 
+test('Modal and Overlays Toastr - Position Option 1 dropdown test', async ({ pom }) => {
+    await pom.navigationPage.navigateToToastr();
+    await pom.toastr.selectingOptionFromPositionDropdown("bottom-end");
+    await expect(pom.toastr.postitionDropdownButton).toHaveText("bottom-end");
+});
+
+test('Modal and Overlays Toastr - Position Option 2 dropdown test', async ({ pom }) => {
+    await pom.navigationPage.navigateToToastr();
+    await pom.toastr.selectingOptionFromPositionDropdownOption2("bottom-end");
+    await expect(pom.toastr.postitionDropdownButton).toHaveText("bottom-end");
+});
+
+test('Modal and Overlays Toastr - Position Looping through all Items', async ({ pom }) => {
+    await pom.navigationPage.navigateToToastr();
+    await pom.toastr.loopingOptionFromPositionDropdown();
+});
+
 test('Using the Grid Forms', async ({ pom }) => {
     await test.step(`Test if written in line`, async () => {
         await pom.navigationPage.navigateToFormsLayout();
@@ -69,7 +86,7 @@ test('Block Form Test', async ({pom}) => {
 
 
 
-test.describe('Dashboard controll Button tests', () => {
+test.describe('Dashboard control Button tests', () => {
     for (const data of testDataControllButton) {
         test(`Dashboard Toggle controll Button Off for ${data.controllButtonName} %`, async ({ pom }) => {
             // const pm = new PageManager(page);
