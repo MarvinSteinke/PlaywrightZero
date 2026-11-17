@@ -45,6 +45,9 @@ export default defineConfig({
       testMatch: [
       '**/*pomTests.spec.ts',
       '**/*datepickertests.spec.ts',
+      '**/*modalAndOverlays.spec.ts',
+      '**/*dashboardtests.spec.ts',
+      '**/*navigationtests.spec.ts',
     ],
       use: { ...devices['Desktop Chrome'] },
     },
