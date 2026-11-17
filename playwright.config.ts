@@ -42,7 +42,10 @@ export default defineConfig({
   projects: [
     {
       name: "POM Tests - chrome",
-      testMatch: '*pomTests.spec.ts',
+      testMatch: [
+      '**/*pomTests.spec.ts',
+      '**/*datepickertests.spec.ts',
+    ],
       use: { ...devices['Desktop Chrome'] },
     },
     /*

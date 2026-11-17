@@ -33,6 +33,40 @@ Info, if it has a Promise when you hover over it requires async + await
 Also this was more made as a library, some test might not execute but thats because i mainly wrote the syntax in here so i know how they are builded
 */ 
 
+Get By Role
+Role	HTML element
+button	<button>, <input type="button">
+link	<a href>
+heading	<h1> through <h6> (with level)
+textbox	<input>, <textarea>
+checkbox	<input type="checkbox">
+radio	<input type="radio">
+combobox	<select>, ARIA combobox
+listbox	<select multiple>, ARIA listbox
+option	<option>
+switch	role="switch"
+tab	role="tab"
+tabpanel	role="tabpanel"
+dialog	<dialog>, role="dialog"
+navigation	<nav>
+main	<main>
+banner	<header> (in body)
+contentinfo	<footer> (in body)
+region	<section> with name
+article	<article>
+list / listitem	<ul>/<ol> and <li>
+row / cell / columnheader	<tr>/<td>/<th>
+grid	<table role="grid">
+menu / menuitem	role="menu" / role="menuitem"
+progressbar	<progress> or role="progressbar"
+tooltip	role="tooltip"
+status	role="status" (live region)
+alert	role="alert"
+tree / treeitem	role="tree"
+generic	<div>, <span> without ARIA
+paragraph	<p>
+img	<img> with alt
+presentation / none	role="none"
 
 
 

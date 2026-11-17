@@ -100,7 +100,7 @@ test.describe('Dashboard control Button tests', () => {
 
             } else {
 
-                await test.step(`⚠️ WARNING: Controll Button ${data.controllButtonName}% was already OFF`, async () => { });
+                await test.step(`⚠️ WARNING: Control Button ${data.controllButtonName}% was already OFF`, async () => { });
 
                 await test.info().attach(`Warning - Controll Button ${data.controllButtonName}% `, {
                     body: 'The controll button power button was already OFF. No click was performed.',
