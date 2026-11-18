@@ -98,4 +98,27 @@ export class Datepicker extends BasePage {
         return expectedDate;
     }
 
+
+    readonly table = this.page.locator('ng2-smart-table table');
+    readonly tableRows = this.table.locator('tbody tr');
+
+
+async filterByAge(age: string): Promise<void> {
+
+    const ageFilter = this.page.getByPlaceholder('Age');
+
+    await ageFilter.fill(age);
+}
+
+    async getNumberOfRows(): Promise<number> {
+        return await this.tableRows.count();
+    }
+    async getRowByEmail(email: string): Promise<Locator> {
+    return this.tableRows.filter({
+        hasText: email
+    });
+}
+
+
+
 }

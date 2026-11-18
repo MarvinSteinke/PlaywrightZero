@@ -15,7 +15,8 @@ export class NavigationPage extends BasePage {
         Window: "Window",
         Popover: "Popover",
         Toastr: "Toastr",
-        Tooltip: "Tooltip"
+        Tooltip: "Tooltip",
+        SmartTable: "Smart Table" 
     } as const;
 
     private readonly destinyParentOptions = {
@@ -91,6 +92,14 @@ export class NavigationPage extends BasePage {
          await test.step(`Navigate to Modal & Overlays - Toastr`, async () => {
         await this.selectGroupHeader("Modal & Overlays");
         const formsLink = this.page.getByRole('link', { name: this.destinyOptions.Toastr })
+        await formsLink.click()
+                });
+    }
+
+           async navigateToSmartTable() {
+         await test.step(`Navigate to Tables & Data - Smart Table`, async () => {
+        await this.selectGroupHeader("Tables & Data");
+        const formsLink = this.page.getByRole('link', { name: this.destinyOptions.SmartTable })
         await formsLink.click()
                 });
     }
