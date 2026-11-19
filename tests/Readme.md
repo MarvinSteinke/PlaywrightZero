@@ -1,5 +1,8 @@
 //https://www.automationexercise.com/
 https://playground.bondaracademy.com/pages/iot-dashboard
+
+The Baseline of this Project was the Udemy Course Playwright: Web Automation Testing from Zero to Hero. I further expanded on the things i learned and also tried things different than the course showed, i directly created this Project as in POM and expanded methods and functions to try out different things.
+
 /*
 Commands:
 

@@ -4,6 +4,7 @@ import { NavigationPage } from "./navigationPage";
 import { FormsLayout } from "./Forms/formsLayout";
 import { Toastr } from "./ModalAndOverlays/toastr";
 import { Datepicker } from "./Forms/datepicker";
+import { SmartTable } from "./tablesAndData/smartTable";
 export class PageManager {
 
     // Step 1 Add Variable Name
@@ -13,6 +14,7 @@ export class PageManager {
     readonly formsLayout: FormsLayout;
     readonly toastr: Toastr;
     readonly datepicker: Datepicker;
+    readonly smartTable : SmartTable;
 
     // Step 2 add ne Page to Constructor
     constructor(page: Page) {
@@ -22,6 +24,7 @@ export class PageManager {
         this.formsLayout = new FormsLayout(this.page);
         this.toastr = new Toastr(this.page);
         this.datepicker = new Datepicker(this.page);
+        this.smartTable = new SmartTable(this.page);
     }   
     //Step 3 Add Getter for the Page not needed cause removed private Tag from variablen
    /* getDashboardPage(): DashboardPage {

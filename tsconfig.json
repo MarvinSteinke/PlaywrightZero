@@ -11,7 +11,7 @@
         "tests/**/*.ts",
         "fixture.ts",
         "playwright.config.ts"
-    ]
+, "pages/tablesAndData"    ]
 }
 
 // removes error message in config.tsfor the Process lines

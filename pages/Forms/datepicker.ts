@@ -13,31 +13,41 @@ export class Datepicker extends BasePage {
     async isLoaded(): Promise<boolean> { return await this.commonDatePickerHeader.isVisible(); }
 
     async usingCommonDatePicker(inputDay: string) {
-        await this.waitUntilLoaded();
 
-        await this.commonDatepickerInput.click();
+        await test.step(`Using the common Datepicker with inputday ${inputDay}`, async () => {
 
-        await this.page.locator('.day-cell:not(.bounding-month)').getByText(inputDay, { exact: true }).click();
-        // bounding-month
+
+            await this.waitUntilLoaded();
+
+            await this.commonDatepickerInput.click();
+
+            await this.page.locator('.day-cell:not(.bounding-month)').getByText(inputDay, { exact: true }).click();
+            // bounding-month
+        });
     }
 
     async usingCommonDatePickerWithNextMonth(inputDay: number) {
-        await this.waitUntilLoaded();
 
-        await this.commonDatepickerInput.click();
+        await test.step(`Using the common Datepicker with inputday ${inputDay} for the next Month`, async () => {
 
-        let datepickerCurrentMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent();
-        const expectedMonth = await this.getExpectedMonthAndYearLongForm(inputDay);
-        console.log(datepickerCurrentMonthAndYear);
-        while (!datepickerCurrentMonthAndYear?.includes(expectedMonth)) {
-            await this.page.locator('button.next-month').click();
-            datepickerCurrentMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent();
-        }
+            await this.waitUntilLoaded();
 
-        await this.page.locator('.day-cell:not(.bounding-month)').getByText(inputDay.toString(), { exact: true }).click();
+            await this.commonDatepickerInput.click();
 
-        return
-        // bounding-month
+            let datepickerCurrentMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent();
+            const expectedMonth = await this.getExpectedMonthAndYearLongForm(inputDay);
+            while (!datepickerCurrentMonthAndYear?.includes(expectedMonth)) {
+                await this.page.locator('button.next-month').click();
+                datepickerCurrentMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent();
+            }
+
+            await this.page.locator('.day-cell:not(.bounding-month)').getByText(inputDay.toString(), { exact: true }).click();
+
+            return
+            // bounding-month
+
+        });
+
     }
 
 
@@ -90,34 +100,13 @@ export class Datepicker extends BasePage {
         );
 
         date.setDate(day);
-                const expectedMonth = date.toLocaleString('En-US', { month: 'long' });
+        const expectedMonth = date.toLocaleString('En-US', { month: 'long' });
 
         const expectedYear = date.getFullYear();
         const expectedDate = `${expectedMonth} ${expectedYear}`
-        console.log(expectedDate)
         return expectedDate;
     }
 
-
-    readonly table = this.page.locator('ng2-smart-table table');
-    readonly tableRows = this.table.locator('tbody tr');
-
-
-async filterByAge(age: string): Promise<void> {
-
-    const ageFilter = this.page.getByPlaceholder('Age');
-
-    await ageFilter.fill(age);
-}
-
-    async getNumberOfRows(): Promise<number> {
-        return await this.tableRows.count();
-    }
-    async getRowByEmail(email: string): Promise<Locator> {
-    return this.tableRows.filter({
-        hasText: email
-    });
-}
 
 
 

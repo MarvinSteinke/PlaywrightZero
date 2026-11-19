@@ -19,7 +19,7 @@ export class Toastr extends BasePage {
     async isLoaded(): Promise<boolean> { return await this.toastrHeader.isVisible() }
 
 
-    // This Dropdown is different, the Option inside the dropdown ar ein another Container which makes the selection different
+    /*// This Dropdown is different, the Option inside the dropdown are in another Container which makes the selection different used as a base function
     async selectingOptionFromToasterPositionDropdown(selectOption: string) {
         await this.waitUntilLoaded();
         await test.step(`Select Dropdown Toaster configuration - Position - Select Option ${selectOption}`, async () => {
@@ -29,6 +29,7 @@ export class Toastr extends BasePage {
 
 
     }
+    */
     // This is a standard Dropdown
     async selectingOptionFromToasterTypeDropdown(selectOption: string) {
         await this.waitUntilLoaded();

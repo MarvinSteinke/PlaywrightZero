@@ -48,6 +48,7 @@ export default defineConfig({
       '**/*modalAndOverlays.spec.ts',
       '**/*dashboardtests.spec.ts',
       '**/*navigationtests.spec.ts',
+      '**/*smartTableTests.spec.ts',
     ],
       use: { ...devices['Desktop Chrome'] },
     },
