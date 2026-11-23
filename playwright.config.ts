@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'node:path';
+
+const stagingDirectory = path.join('Playwright-Runs', `.pending-${process.pid}`);
 
 /**
  * Read environment variables from file.
@@ -21,11 +24,15 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters, custom reporter erstellt, uebergebe temp path an den Reporter */
   reporter: [
-  ['list'],
-  ['html', { open: 'never' }],
-],
+    ['list'],
+    ['html', { outputFolder: path.join(stagingDirectory, 'html'), open: 'never' }],
+    ['json', { outputFile: path.join(stagingDirectory, 'report.json') }],
+    ['./playwright-run-reporter.ts', { stagingDirectory }],
+  ],
+  /* Keep screenshots, traces, and other test artifacts with this run's reports. */
+  outputDir: path.join(stagingDirectory, 'test-results'),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -34,6 +41,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
      baseURL: 'https://playground.bondaracademy.com/', 
   },
 

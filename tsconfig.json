@@ -10,8 +10,10 @@
         "pages/**/*.ts",
         "tests/**/*.ts",
         "fixture.ts",
-        "playwright.config.ts"
-, "pages/tablesAndData"    ]
+        "playwright.config.ts",
+        "playwright-run-reporter.ts",
+        "pages/tablesAndData"
+    ]
 }
 
 // removes error message in config.tsfor the Process lines
