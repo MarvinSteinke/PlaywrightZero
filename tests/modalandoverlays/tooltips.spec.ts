@@ -21,9 +21,9 @@ test.describe('Tooltip Placement Test tests', () => {
     for (const data of testDataTooltipPlacement) {
         test(`Tooltip Placement test for Button ${data.tooltipButton} `, async ({ pom }) => {
             await pom.navigationPage.navigateToDestiny("Tooltip");
-            await pom.tooltips.checkingTooltipTooltipPlacement(data.tooltipButton);
-            await expect(pom.tooltips.tooltip).toHaveText(data.expectedTestData)
+            //await pom.tooltips.checkingTooltipTooltipPlacement(data.tooltipButton);
             const expectedDirection = await pom.tooltips.checkingDirectionOfTooltip(data.tooltipButton);
+            await expect(pom.tooltips.tooltip).toHaveText(data.expectedTestData)
             await expect(expectedDirection).toBe(data.tooltipButton);
         });
     }
