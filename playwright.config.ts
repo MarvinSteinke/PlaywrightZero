@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'node:path';
 
-const stagingDirectory = path.join('Playwright-Runs', `.pending-${process.pid}`);
+const stagingDirectory = path.join('Playwright-Runs', '.pending');
 
 /**
  * Read environment variables from file.
@@ -57,6 +57,7 @@ export default defineConfig({
       '**/*dashboardtests.spec.ts',
       '**/*navigationtests.spec.ts',
       '**/*smartTableTests.spec.ts',
+      '**/*tooltips.spec.ts',
     ],
       use: { ...devices['Desktop Chrome'] },
     },

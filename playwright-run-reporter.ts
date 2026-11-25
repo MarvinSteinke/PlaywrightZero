@@ -1,5 +1,5 @@
 import { mkdirSync } from 'node:fs';
-import { access, readdir, rename, rmdir } from 'node:fs/promises';
+import { access, rename, rmdir } from 'node:fs/promises';
 import path from 'node:path';
 import type { FullConfig, Reporter } from '@playwright/test/reporter';
 
@@ -86,14 +86,8 @@ class PlaywrightRunReporter implements Reporter {
     }
 
     try {
-      const entries = await readdir(this.stagingPath);
-      for (const entry of entries) {
-        await rename(
-          path.join(this.stagingPath, entry),
-          path.join(this.destinationPath, entry),
-        );
-      }
-      await rmdir(this.stagingPath);
+      await rmdir(this.destinationPath);
+      await rename(this.stagingPath, this.destinationPath);
     } catch (error) {
       process.stderr.write(
         `Could not archive Playwright run to "${this.destinationPath}": ${String(error)}\n`,
