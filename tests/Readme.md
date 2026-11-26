@@ -1,5 +1,6 @@
-//https://www.automationexercise.com/
-https://playground.bondaracademy.com/pages/iot-dashboard
+
+https://playground.bondaracademy.com/pages/iot-dashboard -> Website for the UI tests
+//https://www.automationexercise.com/ -> Website for the API tests
 
 The Baseline of this Project was the Udemy Course Playwright: Web Automation Testing from Zero to Hero. I further expanded on the things i learned and also tried things different than the course showed, i directly created this Project as a POM and expanded methods and functions to try out different things.
 
@@ -9,11 +10,16 @@ Commands:
 Multi editing command strg + alt + up / down
 
 
-npm start -> starts the app
-npm init playwright@latest -> installs playwright this creates tests folder where you include those files
+Installation:
+npm ci -> clean install from the package-lock.json
+npx playwright install -> installs playwright browsers
+npm test -> execute Tests to check if it works
 
 
-Playwright
+
+npm init playwright@latest -> creates a new folder from scratch for Playwright
+
+Playwright Commands:
 npx playwright test --ui -> starts the UI to test
 npx playwright test -> start all tests
 npx playwright show-report -> shows report
@@ -23,6 +29,7 @@ npx playwright test example.spec.ts --project=chronium -> start test in the exam
 npx playwright test -g "The First Test" --project=chronium -> starts test with Name The First Test
 npx playwright test --project=chronium --trace on -> activates Trace to see every click logs screenshots in report
 npx playwright test --project=chronium --debug -> will open insepctor and browser debug mode
+npm start -> starts the app
 
 Start Recorder
 npx playwright codegen
@@ -33,7 +40,7 @@ npm install --save-dev @faker-js/faker -> check link might change
 For Hover elements open inspect -> sources -> hover over element -> F8 in windwos to freeze browser
 
 Info, if it has a Promise when you hover over it requires async + await
-Also this was more made as a library, some test might not execute but thats because i mainly wrote the syntax in here so i know how they are builded
+Also this was more made as a library, some test might not execute but thats because i mainly wrote the syntax in here so i know how they are build
 */ 
 
 Get By Role
